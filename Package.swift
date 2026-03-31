@@ -50,7 +50,11 @@ import Foundation
 let spiGenerateDocs = ProcessInfo.processInfo.environment["SPI_GENERATE_DOCS"] != nil
 
 // Enable all traits for other CI actions.
+// Doesn't include OmitCoreLocation unless OMIT_CORE_LOCATION_TRAIT is specified
 let enableAllTraitsExplicit = ProcessInfo.processInfo.environment["ENABLE_ALL_TRAITS"] != nil
+
+// Disable OmitCoreLocation trait for CI actions by default
+let omitCoreLocationExplicit = ProcessInfo.processInfo.environment["OMIT_CORE_LOCATION_TRAIT"] != nil
 
 let enableAllTraits = spiGenerateDocs || enableAllTraitsExplicit
 
@@ -65,6 +69,12 @@ package.traits.formUnion([
   ),
 ])
 
+var allTraits = package.traits.map(\.name)
+
+if !omitCoreLocationExplicit {
+  allTraits.removeAll(where: { $0 == "OmitCoreLocation" })
+}
+
 package.traits.insert(.default(
-  enabledTraits: Set(enableAllTraits ? package.traits.map(\.name) : ["CoreLocation"])
+  enabledTraits: Set(enableAllTraits ? allTraits : ["CoreLocation"])
 ))
