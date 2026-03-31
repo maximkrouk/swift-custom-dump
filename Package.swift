@@ -56,11 +56,15 @@ let enableAllTraits = spiGenerateDocs || enableAllTraitsExplicit
 
 package.traits.formUnion([
   .trait(
-    name: "CustomDumpCoreLocation",
-    description: ""
+    name: "CoreLocation",
+    description: "Enables CoreLocation integration with CustomDump"
+  ),
+  .trait(
+    name: "OmitCoreLocation",
+    description: "Enables CoreLocation integration with CustomDump"
   ),
 ])
 
 package.traits.insert(.default(
-  enabledTraits: Set(enableAllTraits ? package.traits.map(\.name) : [])
+  enabledTraits: Set(enableAllTraits ? package.traits.map(\.name) : ["CoreLocation"])
 ))
