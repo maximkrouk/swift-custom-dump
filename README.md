@@ -471,7 +471,7 @@ dependencies: [
 
 > [!Important]
 >
-> If you're using `swift>=6.1` it's recommended to explicitly specify `CoreLocation`-related traits.
+> If you're using `swift>=6.1` it's recommended to explicitly specify `CoreLocation` trait if needed
 >
 > ```swift
 > // Enable
@@ -481,6 +481,9 @@ dependencies: [
 >   traits: ["CoreLocation"]
 > )
 > ```
+> _`CoreLocation` trait is enabled by default for backwards compatibility and it might be opted-out in future major releases, explicit declaration of the trait will ensure that your sources remain compatible when this change occurs_
+>
+> To explicitly opt-out `CoreLocation`, use `OmitCoreLocation` trait
 >
 > ```swift
 > // Disable
@@ -490,8 +493,7 @@ dependencies: [
 >   traits: ["OmitCoreLocation"]
 > )
 > ```
->
-> _`CoreLocation` trait is enabled by default for backwards compatibility and it might be opted-out in future major releases, explicit declaration of the trait will ensure that your sources remain compatible when this change occurs_
+> _`OmitCoreLocation` trait forces the compiler to trim `CoreLocation` out of the build with no return, it should only be specified on application level_
 
 ## Documentation
 
